@@ -113,9 +113,6 @@ class CalcVoices
 
         foreach ($accounts as $AccountResponse) {
             if ($AccountResponse instanceof AccountResponse) {
-                if ($AccountResponse->getAccountId() == 'GBGGX7QD3JCPFKOJTLBRAFU3SIME3WSNDXETWI63EDCORLBB6HIP2CRR') {
-                    continue;
-                }
                 $Account = $this->processStellarAccount($AccountResponse);
 
                 $this->print(sprintf(
@@ -446,14 +443,6 @@ class CalcVoices
             $Transaction->addOperation($Operation->build());
             $op_count++;
         }
-
-        $Operation = new ClawbackOperationBuilder(
-            Asset::createNonNativeAsset($this->the_token, $this->main_account),
-            new MuxedAccount('GBGGX7QD3JCPFKOJTLBRAFU3SIME3WSNDXETWI63EDCORLBB6HIP2CRR'),
-            1
-
-        );
-        $Transaction->addOperation($Operation->build());
 
         if ($op_count) {
             $this->print($Transaction->build()->toEnvelopeXdrBase64());
